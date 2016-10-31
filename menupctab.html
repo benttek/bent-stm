@@ -1,0 +1,101 @@
+					<div class="table-responsive">
+					<table width="60%" align="center">
+					
+					<tr>
+					<td align="center" width="33%"><a href="bt_msgcenter.php?u=<?php echo $user;?>" style="color: white;">
+				   <i class="fa fa-envelope fa-4x"></i><br>
+				   <small>Messages <br> <strong><?php echo $cntmail;?></strong></span></small><br><br></a>
+				   </td>
+			   
+					<td align="center" width="33%">
+					<a href="https://bent-tek.com/mycheckin/bt_uchkin.php?u=<?php echo $user;?>" class="" style="color: white; ">
+					<i class="fa fa-camera-retro fa-4x"></i><br>
+				   <small>Check-in <br>Photo</small><br><br></a>
+				   </td>
+				   
+				   <?php 
+				  $STMlc = $dbh->prepare("SELECT * FROM tbl_chkin WHERE user='$user' OR user='$user1' ORDER BY timestamp DESC LIMIT 1");
+
+				$STMlc->execute();
+
+				$STMrecordslc = $STMlc->fetchAll();
+				foreach($STMrecordslc as $ulci1)
+
+				$checkinid= $ulci1['chkin_id'];	
+
+				
+				  ?>
+				
+					<td align="center" width="33%">
+					<a href="bt_lastchkin.php?lci=<?php echo $checkinid;?>" class="" style="color: white;"> <i class="fa fa-compass fa-4x"></i><br>
+				  <small>Last <br> Check-in</small><br><br></a>
+				  
+				     <?php 
+				  $STMcale = $dbh->prepare("SELECT count(id) as cntevnt, title, startdate, id, user, SUBSTRING_INDEX(`startdate`,'T', 1) as sdate, SUBSTRING_INDEX(`startdate`,'T',-1) as stime FROM calendar WHERE `user` = '$user' AND LEFT(`startdate`,10)='$today1'");
+
+					$STMcale->execute();
+
+						$STMrecordscale = $STMcale->fetchAll();
+						foreach($STMrecordscale as $cali1)
+						
+						$cntevent = $cali1['cntevnt'];
+				  ?>
+				  </td>
+				  </tr>
+				  
+				  <tr>
+				  <td align="center">
+				   <a href="bt_cal/cal1.php?u=<?php echo $user;?>" class="modalButton3" style="color: white;"> <i class="fa fa-calendar fa-4x"></i><br>
+				   <small>Calendar &nbsp;&nbsp; <strong><?php echo $cntevent;?></strong></span></small><br><br></a>
+                </td>
+				
+				<td align="center">
+					<a href="bt_booka.php?u=<?php echo $user;?>" class="modalButton4" style="color: white;"> <i class="fa fa-group fa-4x"></i><br>
+				  <small>Booking</small><br><br></a>
+				  
+				</td>
+				
+				<td align="center">
+				<a href="bt_umsettings.php?u=<?php echo $user;?>" class="modalButton5" style="color: white;"> <i class="fa fa-cog fa-4x"></i><br>
+				  <small>Settings</small><br><br></a>
+
+					
+				</td>
+				</tr>
+				
+					
+				<tr>
+				<td align="center">
+				
+				<a href="logout.php" class="modalButton5" style="color: white;"><i class="fa fa-sign-out fa-4x"></i><br><small>logout</small></a>
+				
+				</td>
+					<td align="center"></td>
+					
+					<td align="center">
+					<?php if($ugrp=="manager"){ 
+				   
+				   ?>
+				   
+				   <a href="mapping/mymaporg.php?u=<?php echo $user;?>&t=<?php echo $user;?>" style="color: white;"> <i class="fa fa-map-marker fa-4x"></i><br>                  
+				   <small>My Team</small> </a>
+				   
+				   <?php } ?>
+				   
+				   <?php 
+					$STMi = $dbh->prepare("SELECT * FROM tbl_chkin WHERE user='$user' ORDER BY timestamp DESC LIMIT 1");
+
+					$STMi->execute();
+
+						$STMrecordsi = $STMi->fetchAll();
+						foreach($STMrecordsi as $ui1)
+
+						$checkinid= $ui1['chkin_id'];
+					?>
+					
+					</td>
+					
+					</tr>
+					
+				</table>
+				</div>

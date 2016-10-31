@@ -1,0 +1,1 @@
+<?php $config["database"] = "chkindb"; $config["host"]= "localhost";$config["username"]= "root"; $config["password"]= "root";?>
